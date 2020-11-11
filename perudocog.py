@@ -2,12 +2,14 @@ import discord
 import discord.ext.commands as commands
 import random
 
+
 class PerudoAI:
     def __init__(self, name):
         self.name = name
     
     def __str__(self):
         return self.name
+
 
 class Perudo(commands.Cog):
     def __init__(
