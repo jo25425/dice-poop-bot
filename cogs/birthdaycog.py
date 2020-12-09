@@ -71,7 +71,7 @@ class Birthdays(commands.Cog):
             return
 
         date = dt.datetime.now(tz=dt.timezone(dt.timedelta(hours=1)))
-        users = [message.guild.get_member_named(name=name) for name in self.birthdays[(date.day, date.month)]]
+        users = [message.guild.get_member_named(name=name) for name in self.birthdays[(date.month, date.day)]]
         users = [user for user in users if user]
         if len(users) == 0:
             return
@@ -91,12 +91,12 @@ class Birthdays(commands.Cog):
     @tasks.loop(hours=24)
     async def check_birthdays(self):
         date = dt.datetime.now(tz=dt.timezone(dt.timedelta(hours=1)))
-        users = self.birthdays[(date.day, date.month)]
+        users = self.birthdays[(date.month, date.day)]
         for channel in self.channels:
             for user in users:
                 mention = channel.guild.get_member_named(name=user)
                 if mention:
-                    channel.send(f"Hey look, it's {mention.mention}'s birthday! Happy birthday {mention.mention} :tada:")
+                    await channel.send(f"Hey look, it's {mention.mention}'s birthday! Happy birthday {mention.mention} :tada:")
 
     @check_birthdays.before_loop
     async def before_loop(self):
