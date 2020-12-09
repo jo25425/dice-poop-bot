@@ -90,7 +90,7 @@ class Birthdays(commands.Cog):
 
     @tasks.loop(hours=24)
     async def check_birthdays(self):
-        date = dt.datetime.now()
+        date = dt.datetime.now(tz=dt.timezone(dt.timedelta(hours=1)))
         users = self.birthdays[(date.day, date.month)]
         for channel in self.channels:
             for user in users:
@@ -100,7 +100,7 @@ class Birthdays(commands.Cog):
 
     @check_birthdays.before_loop
     async def before_loop(self):
-        time = dt.datetime.now()
+        time = dt.datetime.now(tz=dt.timezone(dt.timedelta(hours=1)))
         hour, minute, second = self.target_time
         time_to_wait = ((hour*60 + minute)*60 + second) - ((time.hour*60 + time.minute)*60 + time.second)
         logger.info(f"Waiting {time_to_wait % (60*60*24)}s")
