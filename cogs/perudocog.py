@@ -1,6 +1,7 @@
 import discord
 import discord.ext.commands as commands
 import random
+import cogs
 
 
 class PerudoAI:
@@ -14,6 +15,7 @@ class PerudoAI:
 class Perudo(commands.Cog):
     def __init__(
         self,
+        bot
     ):
         super().__init__()
         self.data = {}
@@ -56,3 +58,6 @@ class Perudo(commands.Cog):
 
     async def end_game(self, channel):
         del self.data[channel.id]
+
+
+cogs.cog_list.append(Perudo)

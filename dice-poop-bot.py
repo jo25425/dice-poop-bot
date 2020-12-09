@@ -5,7 +5,7 @@ import sys
 from loguru import logger as _logger
 
 import birthday
-from perudocog import Perudo
+import cogs
 
 intents = discord.Intents.default()
 intents.members = True
@@ -30,11 +30,12 @@ class DicePoopBot(commands.Bot):
         self.add_command(die)
         _logger.info("Added commands")
 
-        self.add_cog(Perudo())
-        _logger.info("Added Perudo Cog")
+        for cog in cogs.cog_list:
+            self.add_cog(cog(bot=self))
+            _logger.info(f"Added {cog} Cog")
 
-        self.add_listener(birthday.giphy_spammer, 'on_message')
-        _logger.info("Added Birthday Gif Spammer")
+        # self.add_listener(birthday.giphy_spammer, 'on_message')
+        # _logger.info("Added Birthday Gif Spammer")
 
         self.additions_ready = True
     
