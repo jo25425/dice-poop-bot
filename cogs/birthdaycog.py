@@ -70,7 +70,7 @@ class Birthdays(commands.Cog):
         if not matches:
             return
 
-        date = dt.datetime.now()
+        date = dt.datetime.now(tz=dt.timezone(dt.timedelta(hours=1)))
         users = [message.guild.get_member_named(name=name) for name in self.birthdays[(date.day, date.month)]]
         users = [user for user in users if user]
         if len(users) == 0:
