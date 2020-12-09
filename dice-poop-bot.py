@@ -1,6 +1,7 @@
 import discord
 import discord.ext.commands as commands
 import json
+import sys
 from loguru import logger as _logger
 
 import birthday
@@ -17,6 +18,7 @@ class DicePoopBot(commands.Bot):
     ):
         super().__init__(command_prefix=command_prefix, intents=intents)
         self.additions_ready = False
+        self.restart = True
 
     async def on_ready(self):
         if self.additions_ready:
@@ -49,7 +51,12 @@ async def say(ctx, arg):
 
 @commands.command()
 async def die(ctx, arg=None):
-    await ctx.send("Ok :(")
+    if arg=="forever":
+        ctx.bot.restart = False
+        await ctx.send("Ok :(")
+    else:
+        ctx.bot.restart = True
+        await ctx.send("See you soon sucker!")
     await ctx.bot.logout()
 
 if __name__ == '__main__':
@@ -57,3 +64,7 @@ if __name__ == '__main__':
 
     bot = DicePoopBot()
     bot.run(config["bot_token"])
+    if bot.restart:
+        sys.exit(0)
+    else:
+        sys.exit(1)
