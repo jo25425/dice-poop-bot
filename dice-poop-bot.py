@@ -25,6 +25,7 @@ class DicePoopBot(commands.Bot):
         _logger.info("Bot started")
 
         self.add_command(say)
+        self.add_command(die)
         _logger.info("Added commands")
 
         self.add_cog(Perudo())
@@ -44,6 +45,12 @@ class DicePoopBot(commands.Bot):
 @commands.command()
 async def say(ctx, arg):
     await ctx.send(arg)
+
+
+@commands.command()
+async def die(ctx, arg=None):
+    await ctx.send("Ok :(")
+    await ctx.bot.logout()
 
 if __name__ == '__main__':
     config = json.load(open("config.json"))
